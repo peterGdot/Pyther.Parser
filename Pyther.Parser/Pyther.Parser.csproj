@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="CSV\.Exceptions\ParseException.cs" />
+    <Compile Include="CSV\.Presenter\BasePresenter.cs" />
+    <Compile Include="CSV\.Presenter\DynamicPresenter.cs" />
+    <Compile Include="CSV\.Presenter\ObjectPresenter.cs" />
+    <Compile Include="CSV\.Presenter\Record.cs" />
+    <Compile Include="CSV\.Presenter\RecordFlags.cs" />
+    <Compile Include="CSV\.Presenter\RecordPresenter.cs" />
+    <Compile Include="CSV\.Types\ErrorHandling.cs" />
+    <Compile Include="CSV\.Types\TransformMethods.cs" />
+  </ItemGroup>
+
+</Project>
