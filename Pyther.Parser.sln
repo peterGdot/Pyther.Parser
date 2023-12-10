@@ -3,17 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyther.Parser", "Pyther.Parser\Pyther.Parser.csproj", "{439D5FE8-C105-4C96-AA8C-F0CB24CD3221}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pyther.Parser", "Pyther.Parser\Pyther.Parser.csproj", "{439D5FE8-C105-4C96-AA8C-F0CB24CD3221}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{FC3443C9-DB27-46CB-A489-238650A2BFDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{FC3443C9-DB27-46CB-A489-238650A2BFDA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{B28AFFBC-5D8A-4100-9FCE-A799E17EA85D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INI.Demo", "Demos\INI.Demo\INI.Demo.csproj", "{F1428D2E-4ACC-41A1-BA64-CAACF0B8FF59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "INI.Demo", "Demos\INI.Demo\INI.Demo.csproj", "{F1428D2E-4ACC-41A1-BA64-CAACF0B8FF59}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{681D6AAD-FDD1-424C-8DAD-D5AF0F212F97}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		Upload NuGet.bat = Upload NuGet.bat
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSV.Demo", "Demos\CSV.Demo\CSV.Demo.csproj", "{740438EC-F641-4188-BB7B-C45651BDD9C0}"

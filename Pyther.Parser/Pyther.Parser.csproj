@@ -27,11 +27,4 @@
     <Compile Include="CSV\.Types\TransformMethods.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
 </Project>
