@@ -3,10 +3,10 @@
 
 ## Features
 * easy to use
-* extreme fast
+* extreme fast (take a look at the end of this document)
 * lightweight code
 * can handle csv files of any size with minimal memory footprint
-* can transform rows to associative records, dynamic objects or objects of any class
+* can transform rows into associative records, dynamic objects or objects of any class
 * lots of optional settings
 
 ## Quickstart
@@ -435,8 +435,8 @@ var csv = new CSVReader(new Settings()
     * ~75 MB
     * Average of 5 iterations
 
-|  |ReadRow  | ReadRecord | ReadRecord (indexed) | ReadDynamic | ReadObject |
-| --- | --- | --- | --- | --- |
+| | ReadRow | ReadRecord | ReadRecord (indexed) | ReadDynamic | ReadObject |
+| --- | --- | --- | --- | --- | --- |
 | Time in Seconds | 0.7918 | 0.8926  | **0.7074** | 3.7348 |  1.598  |
 | Cells per Seconds | 10.10 Mio | 8.96 Mio| **11.31 Mio** | 2..14 Mio | 5.01 Mio |
 
@@ -449,8 +449,8 @@ var csv = new CSVReader(new Settings()
         * RecordSeparator = Environment.NewLine
     * these options will use the _fast path_ for parsing
  
-|  |ReadRow  | ReadRecord | ReadRecord (indexed) | ReadDynamic | ReadObject |
-| --- | --- | --- | --- | --- |
+| | ReadRow | ReadRecord | ReadRecord (indexed) | ReadDynamic | ReadObject |
+| --- | --- | --- | --- | --- | --- |
 | Time in Seconds | 0.312 | 0.472 | **0.320** | 3.011 |  0.968 |
 | Cells per Seconds | 25.64 Mio | 16.95 Mio| **25 Mio** | 2.66 Mio | 8.26 Mio |
 
