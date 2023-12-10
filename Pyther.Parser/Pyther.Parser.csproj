@@ -7,6 +7,12 @@
     <Version>0.1.0</Version>
     <SignAssembly>False</SignAssembly>
     <Authors>Peter Grundmann</Authors>
+    <Title>Pyther.Parser</Title>
+    <Description>Library for parsing and writing common file types.</Description>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl>https://github.com/peterGdot/Pyther.Parser</RepositoryUrl>
+    <PackageTags>csv; ini; parser; writer</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +25,13 @@
     <Compile Include="CSV\.Presenter\RecordPresenter.cs" />
     <Compile Include="CSV\.Types\ErrorHandling.cs" />
     <Compile Include="CSV\.Types\TransformMethods.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
