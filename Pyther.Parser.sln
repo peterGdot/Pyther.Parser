@@ -14,7 +14,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{681D6AAD-FDD1-424C-8DAD-D5AF0F212F97}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		Upload NuGet.bat = Upload NuGet.bat
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSV.Demo", "Demos\CSV.Demo\CSV.Demo.csproj", "{740438EC-F641-4188-BB7B-C45651BDD9C0}"
