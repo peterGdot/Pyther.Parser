@@ -243,7 +243,7 @@ namespace Pyther.Parser.INI
             var str = this.Get(sectionName, key)?.ToLower();
             return str switch
             {
-                "true" or "on" or "1" => true,
+                "true" or "on" or "yes" or "1" => true,
                 null => null,
                 _ => false
             };
