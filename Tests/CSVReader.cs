@@ -15,7 +15,7 @@ namespace Tests
             string lastname = "";
             string remark = "";
 
-            foreach (List<object> row in csv.ReadRow(path))
+            foreach (List<object> row in csv.ReadRowFromPath(path))
             {
                 if (csv.RowId == 7)
                 {
@@ -39,7 +39,7 @@ namespace Tests
             string lastname = "";
             string remark = "";
 
-            foreach (Record row in csv.ReadRecord(path))
+            foreach (Record row in csv.ReadRecordFromPath(path))
             {
                 if (csv.RowId == 7)
                 {
@@ -67,7 +67,7 @@ namespace Tests
             string lastname = "";
             string remark = "";
 
-            foreach (dynamic obj in csv.ReadDynamic(path))
+            foreach (dynamic obj in csv.ReadDynamicFromPath(path))
             {
                 if (csv.RowId == 7)
                 {
@@ -106,7 +106,7 @@ namespace Tests
             string lastname = "";
             string remark = "";
 
-            foreach (var obj in csv.ReadObject<Order>(path))
+            foreach (var obj in csv.ReadObjectFromPath<Order>(path))
             {
                 if (csv.RowId == 7)
                 {
@@ -142,7 +142,7 @@ namespace Tests
             });
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "demo", "orders.csv");
 
-            foreach (var obj in csv.ReadObject<Order>(path))
+            foreach (var obj in csv.ReadObjectFromPath<Order>(path))
             {
                 if (csv.RowId == 4)
                 {

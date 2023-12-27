@@ -5,7 +5,7 @@ namespace Pyther.Parser.CSV
     public class CSVWriter : IDisposable
     {
         private readonly Settings options;
-        private readonly StreamWriter writer;
+        private readonly TextWriter writer;
         
         private bool disposed = false;
         private bool needHeaderWritten = true;
@@ -14,10 +14,8 @@ namespace Pyther.Parser.CSV
         
         public long RecordCount { get; private set; }
 
-        public CSVWriter(string filename, Settings? options = null)
+        public CSVWriter(string filename, Settings? options = null) : this(options)
         {
-            this.options = options != null ? options.Clone() : new Settings();
-            Headers = new Headers();
             try
             {
                 writer = new StreamWriter(filename, false, this.options.Encoding, this.options.BufferSize);
@@ -25,7 +23,26 @@ namespace Pyther.Parser.CSV
             {
                 throw;
             }
-           
+        }
+
+        public CSVWriter(StringWriter stringWriter, Settings? options = null) : this(options)
+        {
+            try
+            {
+                writer = stringWriter;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+#pragma warning disable CS8618
+        private CSVWriter(Settings? options = null)
+#pragma warning restore CS8618
+        {
+            this.options = options != null ? options.Clone() : new Settings();
+            Headers = new Headers();
         }
 
         ~CSVWriter()

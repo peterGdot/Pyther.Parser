@@ -18,7 +18,7 @@ using Pyther.Parser.CSV;
 
 var csv = new CSVReader();
 
-foreach (var record in csv.ReadRecord(@"C:\orders.csv"))
+foreach (var record in csv.ReadRecordFromPath(@"C:\orders.csv"))
 {
     Console.WriteLine(record["customer-lastname"].ToString());
 }
@@ -29,7 +29,7 @@ One of **many** ways to write CSV files:
 ```cs
 using Pyther.Parser.CSV;
 
-var csv = new CSVWriter();
+var csv = new CSVWriter(@"C:\heroes.csv");
 
 csv.Headers.Add("Name", "FirstName", "LastName", "Height", "Remarks");
 csv.Write("Parker, Peter", "Peter", "Parker", 175.3, "Arguments example");
@@ -52,7 +52,7 @@ We will discover 4 different ways to parse this file.
 ```cs
 var csv = new CSVReader();
 
-foreach (List<object> row in csv.ReadRow(@"C:\orders.csv"))
+foreach (List<object> row in csv.ReadRowFromPath(@"C:\orders.csv"))
 {
     string remark = row[5].ToString() ?? "";
     string lastname = row[2].ToString() ?? "";
@@ -66,7 +66,7 @@ foreach (List<object> row in csv.ReadRow(@"C:\orders.csv"))
 ```cs
 var csv = new CSVReader();
 
-foreach (Record row in csv.ReadRecord(@"C:\orders.csv"))
+foreach (Record row in csv.ReadRecordFromPath(@"C:\orders.csv"))
 {
     string remark = row[5].ToString() ?? "";
     string lastname = row["customer-lastname"].ToString() ?? "";
@@ -90,7 +90,7 @@ var csv = new CSVReader(new Settings()
     HeaderTransformMethod = TransformMethods.Auto
 });
 
-foreach (dynamic obj in csv.ReadDynamic(@"C:\orders.csv"))
+foreach (dynamic obj in csv.ReadDynamicFromPath(@"C:\orders.csv"))
 {
     string remark = obj.Remark.ToString() ?? "";
     string lastname = obj.CustomerLastname.ToString() ?? "";
@@ -122,7 +122,7 @@ var csv = new CSVReader(new Settings()
     HeaderTransformMethod = TransformMethods.Auto
 });
 
-foreach (var obj in csv.ReadObject<Order>(@"C:\orders.csv"))
+foreach (var obj in csv.ReadObjectFromPath<Order>(@"C:\orders.csv"))
 {
     string remark = obj.Remark;
     string lastname = obj.CustomerLastname;
@@ -133,7 +133,7 @@ foreach (var obj in csv.ReadObject<Order>(@"C:\orders.csv"))
 
 ```cs
 Order myOrder = new Order();
-foreach (var _ in csv.ReadObject(@"C:\orders.csv", myOrder))
+foreach (var _ in csv.ReadObjectFromPath(@"C:\orders.csv", myOrder))
 {
     Console.WriteLine($"{csv.RowId,3} | {myOrder.OrderId} / {myOrder.DateOfPurchase}");
 }

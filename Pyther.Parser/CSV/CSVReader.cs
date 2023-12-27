@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
+using System.IO;
+using System.Reflection.PortableExecutable;
+using System.Text;
 
 namespace Pyther.Parser.CSV;
 
@@ -18,12 +22,35 @@ public class CSVReader
         this.parser = new StreamParser(this.options);
     }
 
-    public IEnumerable<List<object>> ReadRow(string path)
+    #region Row
+
+    public IEnumerable<List<object>> ReadRowFromString(string text)
+    {
+        using var stream = new MemoryStream();
+        using var writer = new StreamWriter(stream);
+        writer.Write(text);
+        writer.Flush();
+        stream.Position = 0;
+        foreach (var r in ReadRow(new StreamReader(stream)))
+        {
+            yield return r;
+        }
+    }
+
+    public IEnumerable<List<object>> ReadRowFromPath(string path)
     {
         rowId = 0;
-
         using var fileStream = File.OpenRead(path);
         using var reader = new StreamReader(fileStream, options.Encoding, true, options.BufferSize);
+        foreach (var r in ReadRow(reader))
+        {
+            yield return r;
+        }        
+    }
+
+    public IEnumerable<List<object>> ReadRow(StreamReader reader)
+    {
+        rowId = 0;
 
         if (this.options.HasHeader)
         {
@@ -38,20 +65,46 @@ public class CSVReader
         while (parser.ReadRow(reader, ref rowId) is List<object> row)
         {
             CheckErrors(row);
-            if (options.CellTransformMethod != null) {
+            if (options.CellTransformMethod != null)
+            {
                 ApplyCellTransform(row);
             }
             yield return row;
         }
     }
 
-    public IEnumerable<Record> ReadRecord(string path, RecordFlags flags = RecordFlags.Both, Record? result = null)
+    #endregion
+
+    #region Record
+
+    public IEnumerable<Record> ReadRecordFromString(string text, RecordFlags flags = RecordFlags.Both, Record? result = null)
+    {
+        using var stream = new MemoryStream();
+        using var writer = new StreamWriter(stream);
+        writer.Write(text);
+        writer.Flush();
+        stream.Position = 0;
+        foreach (var r in ReadRecord(new StreamReader(stream), flags, result))
+        {
+            yield return r;
+        }
+    }
+
+    public IEnumerable<Record> ReadRecordFromPath(string path, RecordFlags flags = RecordFlags.Both, Record? result = null)
+    {
+        rowId = 0;
+        using var fileStream = File.OpenRead(path);
+        using var reader = new StreamReader(fileStream, options.Encoding, true, options.BufferSize);
+        foreach (var r in ReadRecord(reader, flags, result))
+        {
+            yield return r;
+        }
+    }
+
+    public IEnumerable<Record> ReadRecord(StreamReader reader, RecordFlags flags = RecordFlags.Both, Record? result = null)
     {
         var presenter = new RecordPresenter(flags);
         rowId = 0;
-
-        using var fileStream = File.OpenRead(path);
-        using var reader = new StreamReader(fileStream, options.Encoding, true, options.BufferSize);
 
         if (this.options.HasHeader)
         {
@@ -73,13 +126,38 @@ public class CSVReader
         }
     }
 
-    public IEnumerable<dynamic> ReadDynamic(string path)
+    #endregion
+
+    #region Dynamic
+
+    public IEnumerable<dynamic> ReadDynamicFromString(string text)
+    {
+        using var stream = new MemoryStream();
+        using var writer = new StreamWriter(stream);
+        writer.Write(text);
+        writer.Flush();
+        stream.Position = 0;
+        foreach (var r in ReadDynamic(new StreamReader(stream)))
+        {
+            yield return r;
+        }
+    }
+
+    public IEnumerable<dynamic> ReadDynamicFromPath(string path)
+    {
+        rowId = 0;
+        using var fileStream = File.OpenRead(path);
+        using var reader = new StreamReader(fileStream, options.Encoding, true, options.BufferSize);
+        foreach (var r in ReadDynamic(reader))
+        {
+            yield return r;
+        }
+    }
+
+    public IEnumerable<dynamic> ReadDynamic(StreamReader reader)
     {
         var presenter = new DynamicPresenter();
         rowId = 0;
-
-        using var fileStream = File.OpenRead(path);
-        using var reader = new StreamReader(fileStream, options.Encoding, true, options.BufferSize);
 
         if (this.options.HasHeader)
         {
@@ -102,13 +180,38 @@ public class CSVReader
         }
     }
 
-    public IEnumerable<T> ReadObject<T>(string path, T? obj = null) where T: class
+    #endregion
+
+    #region Object
+
+    public IEnumerable<T> ReadObjectFromString<T>(string text, T? obj = null) where T : class
+    {
+        using var stream = new MemoryStream();
+        using var writer = new StreamWriter(stream);
+        writer.Write(text);
+        writer.Flush();
+        stream.Position = 0;
+        foreach (var r in ReadObject<T>(new StreamReader(stream), obj))
+        {
+            yield return r;
+        }
+    }
+
+    public IEnumerable<T> ReadObjectFromPath<T>(string path, T? obj = null) where T : class
+    {
+        rowId = 0;
+        using var fileStream = File.OpenRead(path);
+        using var reader = new StreamReader(fileStream, options.Encoding, true, options.BufferSize);
+        foreach (var r in ReadObject<T>(reader, obj))
+        {
+            yield return r;
+        }
+    }
+
+    public IEnumerable<T> ReadObject<T>(StreamReader reader, T? obj = null) where T: class
     {
         var presenter = new ObjectPresenter<T>();
         rowId = 0;
-
-        using var fileStream = File.OpenRead(path);
-        using var reader = new StreamReader(fileStream, options.Encoding, true, options.BufferSize);
 
         if (this.options.HasHeader)
         {
@@ -130,6 +233,8 @@ public class CSVReader
             yield return (T)presenter.Convert(row, headers, options, obj);
         }
     }
+
+    #endregion
 
     public void ApplyCellTransform(List<object> row)
     {
