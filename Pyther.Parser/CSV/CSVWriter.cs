@@ -262,6 +262,51 @@ namespace Pyther.Parser.CSV
             RecordCount++;
         }
 
+        public void WriteNested<T>(T obj) where T : class
+        {
+            if (needHeaderWritten)
+            {
+                WriteHeader();
+            }
+
+            Type type = typeof(T);
+
+            for (int i = 0; i < Headers.Count; i++)
+            {
+                string header = Headers[i]!;
+
+                var keys = header.Split('.');
+                object? data = null;
+                object o = obj;
+                Type t = type;
+                for (int j = 0; j < keys.Length; j++)
+                {
+                    string? key = keys[j];
+                    PropertyInfo? pi = t.GetProperty(key);
+                    data = pi?.GetValue(o, null);
+                    if (data == null) break;
+                    if (j + 1 < keys.Length)
+                    {
+                        o = data;
+                        t = data.GetType();
+                    }
+                }
+                if (data != null)
+                {
+                    WriteCell(((IConvertible)data)?.ToString(options.FormatProvider) ?? "", i);
+                }
+                else
+                {
+                    WriteCell("", i);
+                }
+            }
+
+            writer.Write(options.RecordSeparator);
+            writer.Flush();
+            RecordCount++;
+        }
+
+
         public void Dispose()
         {
             Dispose(true);

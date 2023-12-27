@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Dynamic;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 internal class Program
 {
@@ -26,10 +27,13 @@ internal class Program
 
     private static void Main()
     {
+        /*
         ReaderDemo();        
         ErrorDemo();
         WriteDemo();
         WriteStream();
+        */
+        WriteNestedObject();
     }
 
     private static object MyCellTransform(object data, int columnIndex, string? columnName)
@@ -269,5 +273,46 @@ internal class Program
         Console.WriteLine(sw.ToString());
     }
 
+    class Address
+    {
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? Company { get; set; }
+    }
 
+    class Order2
+    {
+        public string? Id { get; set; }
+        public Address? Billing { get; set; }
+        public Address? Shipping { get; set; }
+    }
+
+    private static void WriteNestedObject()
+    {
+        Order2 order = new()
+        {
+            Id = "123",
+            Shipping = new Address()
+            {
+                FirstName = "Peter",
+                LastName = "Parker",
+                Company = "Marvel"
+            }
+        };
+        Console.WriteLine("== CSV Write Demo (nested object) ========");
+
+        StringWriter sw = new StringWriter();
+
+        var csv = new CSVWriter(sw, new Settings());
+        csv.Headers
+            .Add("Id")
+            .Add("Billing.FirstName", "Billing.LastName", "Billing.Company")
+            .Add("Shipping.FirstName", "Shipping.LastName", "Shipping.Company");
+
+        // optional: write headers by hand
+        csv.WriteHeader();
+        csv.WriteEmptyLine();
+        csv.WriteNested(order);
+        Console.WriteLine(sw.ToString());
+    }
 }

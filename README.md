@@ -260,7 +260,7 @@ class Person
 }
 ```
 
-with the following example date
+with the following example data
 ```cs
 var person = new Person()
 {
@@ -274,6 +274,59 @@ var person = new Person()
 we can simply write it the following way
 ```cs
 csv.Write(person);
+```
+
+### 6th Way - Write Custom Objects using nested paths
+
+Lets say we have two model class:
+```cs
+class Order
+{
+    public string? Id { get; set; }
+    public Address? Billing { get; set; }
+    public Address? Shipping { get; set; }
+}
+
+class Address
+{
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public string? Company { get; set; }
+}
+```
+
+with the following example data
+```cs
+Order order = new()
+{
+    Id = "123",
+    Shipping = new Address()
+    {
+        FirstName = "Peter",
+        LastName = "Parker",
+        Company = "Marvel"
+    }
+};
+```
+
+and we have the following csv headers:
+```cs
+csv.Headers
+    .Add("Id")
+    .Add("Billing.FirstName", "Billing.LastName", "Billing.Company")
+    .Add("Shipping.FirstName", "Shipping.LastName", "Shipping.Company");
+```
+
+we can simply write it the following way
+```cs
+csv.WriteNested(order);
+```
+
+and we get the follow result (remember `order.Billing` was not set)
+```
+Id,Billing.FirstName,Billing.LastName,Billing.Company,Shipping.FirstName,Shipping.LastName,Shipping.Company
+
+123,,,,Peter,Parker,Marvel
 ```
 
 ## Settings
