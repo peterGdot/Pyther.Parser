@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Reflection.PortableExecutable;
 
 namespace Pyther.Parser.CSV
 {
@@ -112,6 +113,10 @@ namespace Pyther.Parser.CSV
                 object? cell = cells[i];
                 if (cell != null)
                 {
+                    if (options.CellTransformMethod != null)
+                    {
+                        cell = options.CellTransformMethod(i, i, this.Headers?[i]);
+                    }
                     WriteCell(((IConvertible)cell).ToString(options.FormatProvider) ?? "", i);
                 } else
                 {
@@ -135,6 +140,10 @@ namespace Pyther.Parser.CSV
             }
             for (int i = 0; i < row.Count; i++)
             {
+                if (options.CellTransformMethod != null)
+                {
+                    row[i] = options.CellTransformMethod(row[i], i, this.Headers?[i]);
+                }
                 WriteCell(((IConvertible)row[i]).ToString(options.FormatProvider) ?? "", i);
             }
             writer.Write(options.RecordSeparator);
@@ -174,12 +183,16 @@ namespace Pyther.Parser.CSV
                 {
                     throw new Exception("Associative Record requires valid Headers");
                 }
-                for (int i = 0; i < Headers.Count; i++)
+                for (int i = 0; i < Headers!.Count; i++)
                 {
                     string key = Headers[i]!;
                     object? data = record[key] ?? record[i];
                     if (data != null)
                     {
+                        if (options.CellTransformMethod != null)
+                        {
+                            data = options.CellTransformMethod(data, i, this.Headers?[i]);
+                        }
                         WriteCell(((IConvertible)data)?.ToString(options.FormatProvider) ?? "", i);
                     }
                     else
@@ -195,6 +208,10 @@ namespace Pyther.Parser.CSV
                     object? data = record[i];
                     if (data != null)
                     {
+                        if (options.CellTransformMethod != null)
+                        {
+                            data = options.CellTransformMethod(data, i, this.Headers?[i]);
+                        }
                         WriteCell(((IConvertible)data)?.ToString(options.FormatProvider) ?? "", i);
                     } else
                     {
@@ -214,12 +231,16 @@ namespace Pyther.Parser.CSV
                 WriteHeader();
             }
             var dict = (IDictionary<string, object>)obj;
-            for (int i = 0; i < Headers.Count; i++)
+            for (int i = 0; i < (Headers?.Count ?? 0); i++)
             {
-                string key = Headers[i]!;
+                string key = Headers![i]!;
                 object? data = dict.ContainsKey(key) ? dict[key] : null;
                 if (data != null)
                 {
+                    if (options.CellTransformMethod != null)
+                    {
+                        data = options.CellTransformMethod(data, i, this.Headers?[i]);
+                    }
                     WriteCell(((IConvertible)data)?.ToString(options.FormatProvider) ?? "", i);
                 }
                 else
@@ -242,13 +263,17 @@ namespace Pyther.Parser.CSV
 
             Type type = typeof(T);
 
-            for (int i = 0; i < Headers.Count; i++)
+            for (int i = 0; i < (Headers?.Count ?? 0); i++)
             {
-                string key = Headers[i]!;
+                string key = Headers![i]!;
                 PropertyInfo? pi = type.GetProperty(key);
                 object? data = pi?.GetValue(obj, null);
                 if (data != null)
                 {
+                    if (options.CellTransformMethod != null)
+                    {
+                        data = options.CellTransformMethod(data, i, this.Headers?[i]);
+                    }
                     WriteCell(((IConvertible)data)?.ToString(options.FormatProvider) ?? "", i);
                 }
                 else
@@ -271,9 +296,9 @@ namespace Pyther.Parser.CSV
 
             Type type = typeof(T);
 
-            for (int i = 0; i < Headers.Count; i++)
+            for (int i = 0; i < (Headers?.Count ?? 0); i++)
             {
-                string header = Headers[i]!;
+                string header = Headers![i]!;
 
                 var keys = header.Split('.');
                 object? data = null;
@@ -293,6 +318,10 @@ namespace Pyther.Parser.CSV
                 }
                 if (data != null)
                 {
+                    if (options.CellTransformMethod != null)
+                    {
+                        data = options.CellTransformMethod(data, i, this.Headers?[i]);
+                    }
                     WriteCell(((IConvertible)data)?.ToString(options.FormatProvider) ?? "", i);
                 }
                 else

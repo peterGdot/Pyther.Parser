@@ -215,7 +215,7 @@ internal class Program
     {
         Console.WriteLine("== CSV Write Demo ========");
 
-        StringWriter sw = new StringWriter();
+        StringWriter sw = new();
 
         var csv = new CSVWriter(sw, new Settings());
         csv.Headers.Add("Name", "FirstName", "LastName").Add("Height", "Remarks");
@@ -283,6 +283,7 @@ internal class Program
     class Order2
     {
         public string? Id { get; set; }
+        public DateTime DateOfPurchase { get; set; }
         public Address? Billing { get; set; }
         public Address? Shipping { get; set; }
     }
@@ -292,6 +293,7 @@ internal class Program
         Order2 order = new()
         {
             Id = "123",
+            DateOfPurchase = DateTime.Now,
             Shipping = new Address()
             {
                 FirstName = "Peter",
@@ -301,11 +303,14 @@ internal class Program
         };
         Console.WriteLine("== CSV Write Demo (nested object) ========");
 
-        StringWriter sw = new StringWriter();
+        StringWriter sw = new();
 
-        var csv = new CSVWriter(sw, new Settings());
+        var csv = new CSVWriter(sw, new Settings()
+        {
+            CellTransformMethod = ConvertCsvDate
+        });
         csv.Headers
-            .Add("Id")
+            .Add("Id", "DateOfPurchase")
             .Add("Billing.FirstName", "Billing.LastName", "Billing.Company")
             .Add("Shipping.FirstName", "Shipping.LastName", "Shipping.Company");
 
@@ -315,4 +320,26 @@ internal class Program
         csv.WriteNested(order);
         Console.WriteLine(sw.ToString());
     }
+
+    private static object ConvertCsvDate(object data, int columnIndex, string? columnName)
+    {
+        /*
+        switch (columnName)
+        {
+            case "DateOfPurchase":
+                Console.WriteLine(data);
+                return "-";
+                // return DateTime.Parse((string)data).ToLocalTime();
+            default:
+                return data;        
+        }
+        */
+        if (data is DateTime dt)
+        {
+            return dt.ToString("yyyy'-'MM'-'dd' 'HH':'mm':'ss");
+        } else {
+            return data;
+        }
+    }
+
 }

@@ -110,11 +110,11 @@ namespace Tests
             {
                 if (csv.RowId == 7)
                 {
-                    remark = obj.Remark;
+                    remark = obj.Remark ?? string.Empty;
                 }
                 if (csv.RowId == 10)
                 {
-                    lastname = obj.CustomerLastname;
+                    lastname = obj.CustomerLastname ?? string.Empty;
                 }
             }
 

@@ -509,5 +509,4 @@ var csv = new CSVReader(new Settings()
 
 ## Open Topics
 * [ ] CSVWriter: Allow Header alias or Transform
-* [ ] CSVWriter: Cell Transform
 * [ ] CSVWriter: ErrorToManyColumns, ErrorToFewColumns, ErrorInvalidClassProperty
