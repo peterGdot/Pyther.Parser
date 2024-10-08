@@ -97,6 +97,7 @@ namespace Pyther.Parser.INI
                     sw.WriteLine(key + INIFile.config.KeyValueWriteDelimiter + row.Value);
                 }
             }
+            sw.WriteLine("");
         }
 
 

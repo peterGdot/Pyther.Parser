@@ -202,33 +202,95 @@ namespace Pyther.Parser.INI
             return this.sectionDict.ContainsKey(sectionName) ? this.sectionDict[sectionName].Get(key) : null;
         }
 
+        public char? GetChar(string? sectionName, string key)
+        {
+            string? val = Get(sectionName, key);
+            return val != null && val.Length == 1 ? val[0] : null;
+        }
+
+        public byte? GetByte(string? sectionName, string key)
+        {
+            string? val = this.Get(sectionName, key);
+            return val != null && byte.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : null;
+        }
+
+        public sbyte? GetSByte(string? sectionName, string key)
+        {
+            string? val = this.Get(sectionName, key);
+            return val != null && sbyte.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : null;
+        }
+
+        public short? GetShort(string? sectionName, string key)
+        {
+            string? val = this.Get(sectionName, key);
+            return val != null && short.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : null;
+        }
+
+        public ushort? GetUShort(string? sectionName, string key)
+        {
+            string? val = this.Get(sectionName, key);
+            return val != null && ushort.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : null;
+        }
+
         /// <summary>
-        /// Get a section int value by section and key.
+        /// Get a integer value by section and key.
         /// </summary>
         /// <param name="sectionName">The name of the section or null for global values.</param>
-        /// <param name="key">The entries key.</param>
+        /// <param name="key">The entry key.</param>
         /// <returns></returns>
         public int? GetInt(string? sectionName, string key)
         {
             string? val = this.Get(sectionName, key);
-            return val != null && int.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out int result) ? result : null;
+            return val != null && int.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : null;
         }
+
+        public uint? GetUInt(string? sectionName, string key)
+        {
+            string? val = this.Get(sectionName, key);
+            return val != null && uint.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : null;
+        }
+
+        public nint? GetNInt(string? sectionName, string key)
+        {
+            string? val = this.Get(sectionName, key);
+            return val != null && nint.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : null;
+        }
+
+        public nuint? GetNUInt(string? sectionName, string key)
+        {
+            string? val = this.Get(sectionName, key);
+            return val != null && nuint.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : null;
+        }
+
 
         public long? GetLong(string? sectionName, string key)
         {
             string? val = this.Get(sectionName, key);
-            return val != null && long.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out long result) ? result : null;
+            return val != null && long.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : null;
+        }
+
+        public ulong? GetULong(string? sectionName, string key)
+        {
+            string? val = this.Get(sectionName, key);
+            return val != null && ulong.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : null;
         }
 
         public float? GetFloat(string? sectionName, string key)
         {
             string? val = this.Get(sectionName, key);
-            return val != null && float.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out float result) ? result : null;
+            return val != null && float.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : null;
         }
+        
         public double? GetDouble(string? sectionName, string key)
         {
             string? val = this.Get(sectionName, key);
-            return val != null && double.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out double result) ? result : null;
+            return val != null && double.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : null;
+        }
+
+        public decimal? GetDecimal(string? sectionName, string key)
+        {
+            string? val = this.Get(sectionName, key);
+            return val != null && decimal.TryParse(val, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : null;
         }
 
         /// <summary>
